@@ -1,7 +1,7 @@
-const API_ENDPOINT = "http://localhost:3000/users"
+const API_ENDPOINT = "http://localhost:3000"
 
 export const registerUser = async (name, email, password) => {
-    const response = await fetch(`${API_ENDPOINT}/register`, {
+    const response = await fetch(`${API_ENDPOINT}/users/register`, {
         method: "POST",
         body: JSON.stringify({
             name,
@@ -27,7 +27,7 @@ export const registerUser = async (name, email, password) => {
 
 export const loginUser = async (email, password) => {
     try {
-        const response = await fetch(`${API_ENDPOINT}/login`, {
+        const response = await fetch(`${API_ENDPOINT}/users/login`, {
             method: "POST",
             body: JSON.stringify({
                 email, password
@@ -51,7 +51,7 @@ export const loginUser = async (email, password) => {
 }
 
 export const logoutUser = async () => {
-    const response = await fetch(`${API_ENDPOINT}/logout`, {
+    const response = await fetch(`${API_ENDPOINT}/users/logout`, {
         method: 'GET',
         credentials: 'include',
     });
@@ -65,7 +65,7 @@ export const logoutUser = async () => {
 
 
 export const fetchUser = async () => {
-    const response = await fetch(`${API_ENDPOINT}/user`, {
+    const response = await fetch(`${API_ENDPOINT}/users/user`, {
         credentials: 'include',
     });
 

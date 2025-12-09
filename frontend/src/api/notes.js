@@ -1,7 +1,7 @@
-const API_ENDPOINT = "http://localhost:3000/notes";
+const API_ENDPOINT = "http://localhost:3000";
 
 export const getNotes = async () => {
-    const response = await fetch(`${API_ENDPOINT}`, {
+    const response = await fetch(`${API_ENDPOINT}/notes`, {
         credentials: 'include', // This ensures the session cookie is sent with the request
     });
     const notes = await response.json();
@@ -9,7 +9,7 @@ export const getNotes = async () => {
 }
 
 export const getCategories = async () => {
-    const response = await fetch(`${API_ENDPOINT}/categories`, {
+    const response = await fetch(`${API_ENDPOINT}/notes/categories`, {
         credentials: 'include', // Add this to send the session cookie
     });
     const categories = await response.json();
@@ -17,7 +17,7 @@ export const getCategories = async () => {
 }
 
 export const deleteNoteApi = async (id) => {
-    const response = await fetch(`${API_ENDPOINT}/${id}`, {
+    const response = await fetch(`${API_ENDPOINT}/notes/${id}`, {
         method: "DELETE",
         credentials: 'include', // Add this to send the session cookie
     });
@@ -26,7 +26,7 @@ export const deleteNoteApi = async (id) => {
 
 
 export const updateNoteApi = async (id, title, desc, category, imageFileName = null) => {
-    const response = await fetch(`${API_ENDPOINT}/${id}`, {
+    const response = await fetch(`${API_ENDPOINT}/notes/${id}`, {
         method: "PUT",
         body: JSON.stringify({
             title,
@@ -48,7 +48,7 @@ export const updateNoteApi = async (id, title, desc, category, imageFileName = n
 
 
 export const addNoteApi = async (title, desc, category, imageFileName = null) => {
-    const response = await fetch(`${API_ENDPOINT}`, {
+    const response = await fetch(`${API_ENDPOINT}/notes`, {
         method: "POST",
         body: JSON.stringify({
             title,
@@ -67,7 +67,7 @@ export const addNoteApi = async (title, desc, category, imageFileName = null) =>
 }
 
 export const toggleCompletedApi = async (id) => {
-    const response = await fetch(`${API_ENDPOINT}/${id}/toggle`, {
+    const response = await fetch(`${API_ENDPOINT}/notes/${id}/toggle`, {
         method: "PATCH",
         credentials: 'include', // Add this to send the session cookie
     });
