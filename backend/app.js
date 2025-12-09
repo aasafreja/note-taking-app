@@ -83,7 +83,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 app.get('/test', (req, res) => {
-    res.send('hhelo from api')
+    res.send('Helo from SnapNotes api!')
 })
 
 app.listen(PORT, () => {
