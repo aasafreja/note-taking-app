@@ -11,7 +11,7 @@ const Welcome = () => {
                 <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
                     <NoteIcon color="primary" sx={{ fontSize: 40 }} />   {/* иконка слева */}
                     <Typography variant="h3" component="h1">
-                        Note Master
+                        SnapNotes
                     </Typography>
                 </Stack>
                 <Typography variant="h6" color="textSecondary">

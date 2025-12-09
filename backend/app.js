@@ -28,7 +28,7 @@ app.use(rateLimit({
 //CORS
 const allowedOrigins = [
     'http://localhost:5173', // dev
-    process.env.CLIENT_ORIGIN  // production, например Netlify
+    process.env.CLIENT_ORIGIN  // production
 ];
 
 app.use(cors({

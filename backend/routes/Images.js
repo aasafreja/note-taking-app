@@ -27,8 +27,6 @@ const upload = multer({
     }
 });
 
-
-
 // Upload an image
 router.post("/upload", upload.single("image"), async (req, res, next) => {
     try {
