@@ -1,11 +1,11 @@
 import { Box, Typography, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import ReactMarkdown from "react-markdown";
-import { getImageUrl } from '../../api/images';
-import { useState, useEffect } from 'react';
+import { formatDateTime } from '../../utils/getCategoryColors';
 import MarkdownImage from './MarkdownImage';
 
 const FullNote = ({ note, onCloseFullNote }) => {
+    const { date, time } = formatDateTime(note.created_at);
 
     return (
         <Box sx={{
@@ -21,8 +21,8 @@ const FullNote = ({ note, onCloseFullNote }) => {
             </Box>
 
             <Typography variant="subtitle2" sx={{ mb: 2, fontStyle: "italic", color: "gray" }}>
-                {new Date(note.created_at).toLocaleDateString()}{" "}
-                {new Date(note.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                {date}
+                {time}
             </Typography>
 
 

@@ -17,7 +17,7 @@ router.post('/register', registerValidator, async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = await pool
-            .query("INSERT INTO notes.users ( name, email, password) VALUES ($1, $2, $3) RETURNING *",
+            .query("INSERT INTO users.users ( name, email, password) VALUES ($1, $2, $3) RETURNING *",
                 [name, email, hashedPassword]);
         const safeUser = newUser.rows[0];
         res.status(201).json({ message: "User registered successfully!", user: safeUser });

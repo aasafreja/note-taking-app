@@ -70,13 +70,22 @@ router.put("/:id", asyncHandler(async (req, res) => {
 router.delete("/:id", asyncHandler(async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
-    await pool.query("DELETE FROM notes.notes WHERE id=$1 AND user_id = $2", [id, userId]);
 
-    if (result.rows.length === 0) {
+    const check = await pool.query(
+        "SELECT * FROM notes.notes WHERE id=$1 AND user_id=$2",
+        [id, userId]
+    );
+
+    if (check.rows.length === 0) {
         return res.status(404).json({ error: "Note not found or not allowed" });
     }
 
-    res.status(200).json({ message: `Note deleted`, id });
+    await pool.query(
+        "DELETE FROM notes.notes WHERE id=$1 AND user_id=$2",
+        [id, userId]
+    );
+
+    res.status(200).json({ message: "Note deleted", id });
 }));
 
 // PATCH toggle completed

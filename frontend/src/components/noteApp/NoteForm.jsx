@@ -17,11 +17,12 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 
 const NoteForm = ({ onAddNote, onCancel, noteToEdit, categories }) => {
+
     const [title, setTitle] = useState(noteToEdit?.title || '');
     const [category, setCategory] = useState(noteToEdit?.category || "");
     const [description, setDescription] = useState(noteToEdit?.description || "");
 
-    const [coverImage, setCoverImage] = useState(null); // main cover image
+    const [coverImage, setCoverImage] = useState(null);
 
     const handleInsertImage = async (e) => {
         const file = e.target.files[0];
@@ -52,9 +53,7 @@ const NoteForm = ({ onAddNote, onCancel, noteToEdit, categories }) => {
             let coverFileName = noteToEdit?.image_file || null;
 
             if (coverImage) {
-                console.log("📤 Uploading cover image:", coverImage);
                 coverFileName = await uploadImageApi(coverImage);
-                console.log("📥 Uploaded coverImage fileName =", coverFileName);
             };
 
             const updatedNote = {
@@ -67,14 +66,13 @@ const NoteForm = ({ onAddNote, onCancel, noteToEdit, categories }) => {
                 completed: noteToEdit?.completed || false
             };
 
-            onAddNote(updatedNote); // Send note to Redux
+            onAddNote(updatedNote);
 
             setTitle("");
             setCategory("");
             setDescription("");
-            console.log('added')
+
         } catch (err) {
-            console.error("❌ Error while saving note:", err);
             alert("Failed to save note");
         }
     };
@@ -109,7 +107,7 @@ const NoteForm = ({ onAddNote, onCancel, noteToEdit, categories }) => {
                         value={category}
                         onChange={(e) => {
                             setCategory(parseInt(e.target.value));
-                            console.log(e.target.value)
+
                         }}
                         label="Category"
                     >
@@ -192,8 +190,6 @@ const NoteForm = ({ onAddNote, onCancel, noteToEdit, categories }) => {
                     </Typography>
                 </Box>
 
-
-                {/* Note cover */}
                 <Box sx={{ mb: 3 }}>
                     <Button
                         variant="outlined"

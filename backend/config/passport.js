@@ -7,7 +7,7 @@ module.exports = function (passport) {
         new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
             try {
                 const result = await pool
-                    .query("SELECT id, name, email, password FROM notes.users WHERE email = $1", [email]);
+                    .query("SELECT id, name, email, password FROM users.users WHERE email = $1", [email]);
                 const user = result.rows[0];
 
                 if (!user) {
@@ -42,7 +42,7 @@ module.exports = function (passport) {
     passport.deserializeUser(async (id, done) => {
         try {
             const result = await pool
-                .query("SELECT id, name, email FROM notes.users WHERE id = $1", [id]);
+                .query("SELECT id, name, email FROM users.users WHERE id = $1", [id]);
             const user = result.rows[0];
 
             if (!user) {

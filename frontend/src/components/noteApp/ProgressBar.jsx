@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, LinearProgress, Typography } from '@mui/material';
 
 const ProgressBar = ({ noteList, category }) => {

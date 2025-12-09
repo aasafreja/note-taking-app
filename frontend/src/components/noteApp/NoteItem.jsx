@@ -5,24 +5,25 @@ import { toggleCompletedApi } from '../../api/notes';
 import { Card, CardContent, Box, Typography, Checkbox, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-
+import { getCategoryColor } from "../../utils/getCategoryColors"
+import { formatDateTime } from '../../utils/getCategoryColors';
 import { getImageUrl } from '../../api/images'
+import DeleteConfirmDialog from './ui/DeleteConfirmDialog';
 
-const categoryColors = {
-    Home: "var(--home-color)",
-    Personal: "var(--personal-color)",
-    Business: "var(--business-color)",
-};
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button
+} from '@mui/material';
 
-const getCategoryColor = (category) => {
-    //return completed ? "var(--completed)" : categoryColors[category] || "gray";
-    return categoryColors[category]
-};
 
 const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
 
+    const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [signedUrl, setSignedUrl] = useState(null);
+    const { date, time } = formatDateTime(note.created_at);
 
     useEffect(() => {
         if (!note.image_file) return;
@@ -34,10 +35,20 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
     const dispatch = useDispatch();
     const cardColor = getCategoryColor(note.category_name);
 
-    const handleDelete = (e) => {
+    const handleDeleteClick = (e) => {
         e.stopPropagation();
-        onDeleteNote(note.id);
+        setDeleteConfirm(true);
     };
+
+    const confirmDelete = async () => {
+        await onDeleteNote(note.id);
+        setDeleteConfirm(false);
+    };
+
+    const cancelDelete = () => {
+        setDeleteConfirm(false);
+    };
+
 
     const handleEdit = (e) => {
         e.stopPropagation();
@@ -55,14 +66,14 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
         <Card
             variant="outlined"
             sx={{
-                backgroundColor: "white",//cardColor,
+                backgroundColor: "white",
                 color: "var(--text-color)",
                 borderRadius: 2,
                 boxShadow: 3,
                 padding: 2,
-                width: "100%", // Ensures equal width for all cards
-                minWidth: 300,  // Sets a minimum width to maintain structure
-                maxWidth: 400,  // Prevents the card from being too wide
+                width: "100%",
+                minWidth: 300,
+                maxWidth: 400,
                 display: "flex",
                 flexDirection: "column"
             }}
@@ -93,9 +104,9 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
                         checked={note.completed}
                         onClick={handleCheckboxChange}
                         sx={{
-                            color: "#007BFF", // Blue color
+                            color: "#007BFF",
                             '&.Mui-checked': {
-                                color: "#007BFF", // Blue when checked
+                                color: "#007BFF",
                             },
                             borderRadius: "4px",
                             ml: -1.5
@@ -104,7 +115,7 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
                     <IconButton onClick={handleEdit} sx={{ color: "var(--text-color)", "&:hover": { color: "#FFC110" } }}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={handleDelete} sx={{ color: "var(--text-color)", "&:hover": { color: "#ff4444" } }}>
+                    <IconButton onClick={handleDeleteClick} sx={{ color: "var(--text-color)", "&:hover": { color: "#ff4444" } }}>
                         <DeleteIcon />
                     </IconButton>
                 </Box>
@@ -113,13 +124,11 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
             <CardContent sx={{
                 padding: "8px"
             }}>
-
-
                 <Typography
                     variant="h6"
                     sx={{
                         textDecoration: note.completed ? "line-through" : "none",
-                        color: "var(--text-color)", // Darker text color
+                        color: "var(--text-color)",
                         fontWeight: "bold"
                     }}
                 >
@@ -141,18 +150,16 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            bgcolor: "#f0f0f0", // фон для пустых областей
+                            bgcolor: "#f0f0f0",
                         }}
                     >
                         <img
                             src={signedUrl}
                             alt="note"
-                            onError={() => console.log("❌ ERROR loading image for:", `/images/signed-url/${note.image_file}`)}
-                            onLoad={() => console.log("✅ IMG LOADED:", `/images/signed-url/${note.image_file}`)}
                             style={{
                                 maxWidth: "100%",
                                 maxHeight: "100%",
-                                objectFit: "contain", // не обрезает, масштабирует под контейнер
+                                objectFit: "contain",
                                 borderRadius: 10,
                             }}
                         />
@@ -164,8 +171,8 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
                     fontStyle: "italic"
                 }}
                     variant="body2">
-                    {new Date(note.created_at).toLocaleDateString()}{" "}
-                    {new Date(note.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {date}
+                    {time}
                 </Typography>
             </CardContent>
         </Card >
@@ -174,6 +181,12 @@ const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
     return (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
             {card()}
+            <DeleteConfirmDialog
+                open={deleteConfirm}
+                title={note.title}
+                onCancel={cancelDelete}
+                onConfirm={confirmDelete}
+            />
         </Box>
     );
 };

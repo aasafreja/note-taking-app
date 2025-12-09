@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { getCategories } from '../../api/notes';
-import { Box, Button, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import React from 'react'
+import { Box, Button, List, ListItem, ListItemButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
-const getCategoryColor = (category) => {
-    const colorMap = {
-        Personal: "var(--personal-color)",
-        Home: "var(--home-color)",
-        Business: "var(--business-color)",
-    };
-    return colorMap[category] || "transparent";
-};
-
-const FilterNav = ({ onCategoryClick, setAddFormVisible, addFormVisible, categories, selectedCategory }) => {
+import { CATEGORIES } from "../../constants/categories";
+import { getCategoryColor } from "../../utils/getCategoryColors"
 
 
-    const menuCategories = ["All", ...categories.map(c => c.name)];
+const FilterNav = ({ onCategoryClick, addModal, selectedCategory }) => {
+    const menuCategories = Object.values(CATEGORIES);
 
     return (
         <Box sx={{
@@ -33,7 +24,7 @@ const FilterNav = ({ onCategoryClick, setAddFormVisible, addFormVisible, categor
                                 padding: "6px 12px",
                                 display: "flex",
                                 flexDirection: "column",
-                                backgroundColor: selectedCategory === category ? "rgba(0,0,0,0.1)" : "transparent", // active style
+                                backgroundColor: selectedCategory === category ? "rgba(0,0,0,0.1)" : "transparent",
                                 "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
                             }}>
                             <Typography variant="body1" fontWeight="bold">{category}
@@ -59,14 +50,14 @@ const FilterNav = ({ onCategoryClick, setAddFormVisible, addFormVisible, categor
                 flexDirection: "column"
             }}>
                 <Button
-                    onClick={() => setAddFormVisible(!addFormVisible)}
+                    onClick={() => addModal.open()}
                     sx={{
                         borderRadius: "6px",
                         padding: "10px 20px",
                         fontWeight: "bold",
 
                         '&:active': {
-                            backgroundColor: "#e6b800", // Darken the yellow on click
+                            backgroundColor: "#e6b800",
                         }
                     }}
                     startIcon={<AddIcon />}
