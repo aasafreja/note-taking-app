@@ -1,5 +1,4 @@
-const API_ENDPOINT = "http://localhost:3000"
-
+import { API_ENDPOINT } from "./index";
 export const registerUser = async (name, email, password) => {
     const response = await fetch(`${API_ENDPOINT}/users/register`, {
         method: "POST",

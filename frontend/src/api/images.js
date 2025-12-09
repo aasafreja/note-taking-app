@@ -1,8 +1,7 @@
-const API_ENDPOINT = "http://localhost:3000";
 
+import { API_ENDPOINT } from "./index";
 // Cash in order to save image urls
 const signedUrlCache = {};
-
 
 export const uploadImageApi = async (imageFile) => {
     const formData = new FormData();
