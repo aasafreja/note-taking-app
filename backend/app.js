@@ -31,24 +31,32 @@ const allowedOrigins = [
     process.env.CLIENT_ORIGIN  // production
 ];
 
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         if (!origin) return callback(null, true); // allow non-browser requests like Postman
+//         if (allowedOrigins.includes(origin)) {
+//             return callback(null, true);
+//         }
+//         return callback(new Error('Not allowed by CORS'));
+//     },
+//     credentials: true
+// }));
+
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin) return callback(null, true); // allow non-browser requests like Postman
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        return callback(new Error('Not allowed by CORS'));
-    },
-    credentials: true
+    origin: process.env.CLIENT_ORIGIN,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
+
 
 // Body Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Session
+app.set('trust proxy', 1);
 app.use(session({
-    name: process.env.SESSION_NAME, // 👈 ВАЖНО
+    name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
