@@ -31,19 +31,14 @@ const allowedOrigins = [
     process.env.CLIENT_ORIGIN  // production
 ];
 
-// app.use(cors({
-//     origin: function (origin, callback) {
-//         if (!origin) return callback(null, true); // allow non-browser requests like Postman
-//         if (allowedOrigins.includes(origin)) {
-//             return callback(null, true);
-//         }
-//         return callback(new Error('Not allowed by CORS'));
-//     },
-//     credentials: true
-// }));
-
 app.use(cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true); // allow non-browser requests like Postman
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
