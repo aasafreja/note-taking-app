@@ -13,8 +13,8 @@ A production-ready note-taking web application built with modern full-stack arch
 ![Note Modal](./frontend/public/img/note-form.png)
 *Modal interface for creating and editing notes*
 
-<!-- ![Full Note View](./frontend/public/img/full-note.png)
-*Detailed note view with image support* -->
+![Full Note View](./frontend/public/img/full-note.png)
+*Detailed note view with image support*
 
 ---
 
@@ -215,19 +215,6 @@ npm run dev
 ```
 
 **Required Environment Variables:**
-- `DATABASE_URL`, `SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`
+- `DATABASE_URL`, `SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_BUCKET`, `SUPABASE_PROJ_PASS`
 
 ---
-
-## 📧 Contact
-
-Built as a portfolio project to demonstrate full-stack development skills.
-
-**GitHub:** [Your GitHub Profile]  
-**LinkedIn:** [Your LinkedIn Profile]
-
----
-
-## 📄 License
-
-MIT License
