@@ -10,13 +10,6 @@ import { formatDateTime } from '../../utils/getCategoryColors';
 import { getImageUrl } from '../../api/images'
 import DeleteConfirmDialog from './ui/DeleteConfirmDialog';
 
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button
-} from '@mui/material';
 
 
 const NoteItem = ({ note, onDeleteNote, onEditNote, onOpenFullNote }) => {
